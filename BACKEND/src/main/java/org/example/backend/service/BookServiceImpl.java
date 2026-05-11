@@ -59,7 +59,7 @@ public class BookServiceImpl implements BookService{
         responseDto.setDescription(book.getDescription());
         responseDto.setPublishedDate(book.getPublishedDate());
         responseDto.setCategory(book.getCategory());
-        responseDto.setImage(book.getImageUrl());
+        responseDto.setImageUrl(book.getImageUrl());
         return responseDto;
     }
 
