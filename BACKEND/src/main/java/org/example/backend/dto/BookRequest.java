@@ -1,14 +1,14 @@
 package org.example.backend.dto;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.web.multipart.MultipartFile;
+import lombok.*;
 import java.time.LocalDate;
+
 
 @Setter
 @Getter
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BookRequest {
     private String title;
     private String author;
@@ -19,4 +19,6 @@ public class BookRequest {
     private LocalDate publishedDate;
     private String category;
     private MultipartFile image;
+
+
 }

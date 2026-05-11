@@ -1,4 +1,5 @@
 package org.example.backend.service;
+import org.example.backend.Mapper.BookMapper;
 import org.example.backend.dto.BookRequest;
 import org.example.backend.dto.BookResponse;
 import org.example.backend.model.Book;
@@ -6,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.backend.repository.BookRepository;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.example.backend.Mapper.BookMapper;
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -16,6 +19,9 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private CloudinaryService cloudinaryService;
+
+    @Autowired
+    private BookMapper bookMapper;
 
     @Override
     public BookResponse saveBook(BookRequest requestDto) {
@@ -53,8 +59,19 @@ public class BookServiceImpl implements BookService{
         responseDto.setDescription(book.getDescription());
         responseDto.setPublishedDate(book.getPublishedDate());
         responseDto.setCategory(book.getCategory());
-        responseDto.setImageUrl(book.getImageUrl());
+        responseDto.setImage(book.getImageUrl());
         return responseDto;
+    }
+
+    @Override
+    public void deleteBook(UUID id){
+        bookRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BookResponse>getBooks(){
+        List<Book>books=bookRepository.findAll();
+        return bookMapper.toDtoList(books);
     }
 }
 
