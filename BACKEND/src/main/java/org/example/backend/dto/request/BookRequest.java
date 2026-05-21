@@ -1,4 +1,4 @@
-package org.example.backend.dto;
+package org.example.backend.dto.request;
 import jakarta.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.*;
@@ -35,7 +35,7 @@ public class BookRequest {
     private String description;
 
 
-    @Past(message = "Published date should be past")
+    @PastOrPresent(message = "Published date should be past or present")
     private LocalDate publishedDate;
 
     @NotBlank(message = "Category cannot be null")

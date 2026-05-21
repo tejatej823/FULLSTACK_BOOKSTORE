@@ -1,5 +1,5 @@
-package org.example.backend.Mapper;
-import org.example.backend.dto.BookResponse;
+package org.example.backend.mapper;
+import org.example.backend.dto.response.BookResponse;
 import org.example.backend.model.Book;
 import org.mapstruct.Mapper;
 
