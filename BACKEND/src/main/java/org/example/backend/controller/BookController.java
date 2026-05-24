@@ -1,4 +1,5 @@
 package org.example.backend.controller;
+import org.example.backend.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import org.example.backend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,9 @@ import java.util.UUID;
 @RequestMapping("api/books")
 public class BookController {
 
-    @Autowired
     private final BookService bookService;
 
-
+    @Autowired
     public BookController(BookService bookService){
         this.bookService=bookService;
     }
@@ -36,8 +36,9 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<BookResponse>>getAllBooks(){
-        System.out.println("Reached getAllBooks Controller");
-        return ResponseEntity.status(200).body(bookService.getBooks());
+    public ResponseEntity<ApiResponse<List<BookResponse>>>getAllBooks(){
+        List<BookResponse>books=bookService.getBooks();
+        ApiResponse<List<BookResponse>>response=new ApiResponse<>("success","Book data retrieved successfully",books);
+        return ResponseEntity.status(200).body(response);
     }
 }

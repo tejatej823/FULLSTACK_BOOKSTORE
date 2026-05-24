@@ -4,6 +4,7 @@ import org.example.backend.model.Book;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
+
 @Repository
-public interface BookRepository extends JpaRepository<Book,UUID> {
+public interface BookRepository extends JpaRepository<Book,UUID>{
 }
