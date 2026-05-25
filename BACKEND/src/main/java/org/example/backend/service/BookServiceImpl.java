@@ -1,7 +1,7 @@
 package org.example.backend.service;
+import org.example.backend.dto.response.BookResponseDto;
 import org.example.backend.mapper.BookMapper;
-import org.example.backend.dto.request.BookRequest;
-import org.example.backend.dto.response.BookResponse;
+import org.example.backend.dto.request.BookRequestDto;
 import org.example.backend.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Service
 public class BookServiceImpl implements BookService{
+
     @Autowired
     private BookRepository bookRepository;
 
@@ -24,44 +25,17 @@ public class BookServiceImpl implements BookService{
     private BookMapper bookMapper;
 
     @Override
-    public BookResponse saveBook(BookRequest requestDto) {
+    public BookResponseDto saveBook(BookRequestDto requestDto) {
         MultipartFile image= requestDto.getImage();
-        if(image==null){
-            System.out.println("Null");
-        }
-        else{
-            System.out.println("Not null");
-        }
         String imageUrl;
         try {
             imageUrl = cloudinaryService.uploadFile(image);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Book book = new Book();
-        book.setTitle(requestDto.getTitle());
-        book.setAuthor(requestDto.getAuthor());
-        book.setIsbn(requestDto.getIsbn());
-        book.setPrice(requestDto.getPrice());
-        book.setStock(requestDto.getStock());
-        book.setDescription(requestDto.getDescription());
-        book.setPublishedDate(requestDto.getPublishedDate());
-        book.setCategory(requestDto.getCategory());
-        book.setImageUrl(imageUrl);
+        Book book = bookMapper.toEntity(requestDto,imageUrl);
         bookRepository.save(book);
-        BookResponse responseDto=new BookResponse();
-        responseDto.setId(book.getId());
-        responseDto.setTitle(book.getTitle());
-        responseDto.setAuthor(book.getAuthor());
-        responseDto.setIsbn(book.getIsbn());
-        responseDto.setPrice(book.getPrice());
-        responseDto.setStock(book.getStock());
-        responseDto.setDescription(book.getDescription());
-        responseDto.setPublishedDate(book.getPublishedDate());
-        responseDto.setCategory(book.getCategory());
-        responseDto.setImageUrl(book.getImageUrl());
-        System.out.println(responseDto);
-        return responseDto;
+        return bookMapper.toDto(book);
     }
 
     @Override
@@ -70,7 +44,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<BookResponse>getBooks(){
+    public List<BookResponseDto>getBooks(){
         List<Book>books=bookRepository.findAll();
         return bookMapper.toDtoList(books);
     }

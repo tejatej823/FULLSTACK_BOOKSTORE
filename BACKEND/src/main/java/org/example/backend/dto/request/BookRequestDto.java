@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @AllArgsConstructor
-public class BookRequest {
+public class BookRequestDto {
 
     @NotBlank(message="Title required")
     @Size(min=1,max=100,message = "Title name must be between 1 and 100 characters")

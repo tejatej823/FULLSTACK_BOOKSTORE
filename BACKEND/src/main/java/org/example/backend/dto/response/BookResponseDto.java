@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-public class BookResponse {
+public class BookResponseDto {
     private UUID id;
     private String title;
     private String author;

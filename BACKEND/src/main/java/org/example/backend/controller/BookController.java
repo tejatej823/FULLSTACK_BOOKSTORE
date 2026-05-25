@@ -1,12 +1,12 @@
 package org.example.backend.controller;
-import org.example.backend.dto.response.ApiResponse;
+import org.example.backend.dto.response.BookResponseDto;
+import org.example.backend.response.ApiResponse;
 import jakarta.validation.Valid;
 import org.example.backend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.example.backend.dto.request.BookRequest;
-import org.example.backend.dto.response.BookResponse;
+import org.example.backend.dto.request.BookRequestDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,9 +23,11 @@ public class BookController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BookResponse> saveBook(@Valid  @ModelAttribute BookRequest requestDto) {
+    public ResponseEntity<ApiResponse<BookResponseDto>> saveBook(@Valid  @ModelAttribute BookRequestDto requestDto) {
         System.out.println("Reached saveBook controller");
-        return ResponseEntity.status(201).body(bookService.saveBook(requestDto));
+        BookResponseDto bookResponseDto=bookService.saveBook(requestDto);
+        ApiResponse<BookResponseDto> response=new ApiResponse<>("success","new book added successfully",bookResponseDto);
+        return ResponseEntity.status(201).body(response);
     }
 
     @DeleteMapping("/{id}")
@@ -36,9 +38,9 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<ApiResponse<List<BookResponse>>>getAllBooks(){
-        List<BookResponse>books=bookService.getBooks();
-        ApiResponse<List<BookResponse>>response=new ApiResponse<>("success","Book data retrieved successfully",books);
+    public ResponseEntity<ApiResponse<List<BookResponseDto>>>getAllBooks(){
+        List<BookResponseDto>books=bookService.getBooks();
+        ApiResponse<List<BookResponseDto>>response=new ApiResponse<>("success","Books retrieved from database successfully",books);
         return ResponseEntity.status(200).body(response);
     }
 }
