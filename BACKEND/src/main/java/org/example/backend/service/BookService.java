@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface BookService{
     BookResponseDto saveBook(BookRequestDto requestDto);
-    void deleteBook(UUID id);
+    String deleteBook(UUID id);
     List<BookResponseDto> getBooks();
 }

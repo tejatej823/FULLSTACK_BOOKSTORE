@@ -1,6 +1,6 @@
 package org.example.backend.controller;
 import org.example.backend.dto.response.BookResponseDto;
-import org.example.backend.response.ApiResponse;
+import org.example.backend.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.example.backend.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +31,16 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable UUID id){
+    public ResponseEntity<String> deleteBook(@PathVariable UUID id){
         System.out.println("Reached deleteBook controller");
         bookService.deleteBook(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(200).body("Deleted successfully");
     }
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<BookResponseDto>>>getAllBooks(){
         List<BookResponseDto>books=bookService.getBooks();
         ApiResponse<List<BookResponseDto>>response=new ApiResponse<>("success","Books retrieved from database successfully",books);
-        return ResponseEntity.status(200).body(response);
+        return ResponseEntity.status(201).body(response);
     }
 }

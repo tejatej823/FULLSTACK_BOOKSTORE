@@ -1,4 +1,4 @@
-package org.example.backend.response;
+package org.example.backend.util;
 import lombok.*;
 
 @Setter
