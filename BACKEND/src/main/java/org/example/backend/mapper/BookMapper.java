@@ -9,8 +9,13 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
+
+    @Mapping(source="categoryId",target ="category.CategoryId")
     BookResponseDto toDto(Book book);
+
     List<BookResponseDto> toDtoList(List<Book> books);
+
     @Mapping(target="imageUrl",source="imageUrl")
     Book toEntity(BookRequestDto bookRequestDto,String imageUrl);
+
 }

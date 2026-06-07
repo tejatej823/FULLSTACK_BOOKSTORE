@@ -1,5 +1,4 @@
 package org.example.backend.model;
-
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -24,7 +23,10 @@ public class Book {
     private Integer stock;
     private String description;
     private LocalDate publishedDate;
-    private String category;
-    private String imageUrl;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="categoryId")
+    private Category category;
+
+    private String imageUrl;
 }

@@ -24,22 +24,19 @@ public class BookRequestDto {
     @DecimalMin(value="50",message ="Only with Minimum price of 50 books allowed to sell")
     private Double price;
 
-
     @NotNull(message = "Stock cannot be null")
     @PositiveOrZero(message="Enter positive or zero")
     @Min(value=10,message ="Minimum stock must be 10")
     private Integer stock;
 
-
     @NotBlank(message = "Description required")
     private String description;
-
 
     @PastOrPresent(message = "Published date should be past or present")
     private LocalDate publishedDate;
 
-    @NotBlank(message = "Category cannot be null")
-    private String category;
+    @NotBlank(message = "Category id cannot be null")
+    private Integer categoryId;
 
     @NotNull(message = "Image cannot be null")
     private MultipartFile image;

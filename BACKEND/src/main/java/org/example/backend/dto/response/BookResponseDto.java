@@ -14,6 +14,7 @@ public class BookResponseDto {
     private Integer stock;
     private String description;
     private LocalDate publishedDate;
-    private String category;
+    private String categoryName;
+    private String categoryId;
     private String imageUrl;
 }
