@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService{
         else{
             throw new BookNotFoundException("Book does not exists.");
         }
-        return "Book deleted successfully";
+        return "Book  deleted successfully";
     }
 
     @Override
