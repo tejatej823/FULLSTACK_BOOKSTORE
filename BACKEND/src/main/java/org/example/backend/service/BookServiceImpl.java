@@ -4,7 +4,9 @@ import org.example.backend.exception.BookAlreadyExistsException;
 import org.example.backend.mapper.BookMapper;
 import org.example.backend.dto.request.BookRequestDto;
 import org.example.backend.model.Book;
+import org.example.backend.model.Category;
 import org.example.backend.repository.BookRepository;
+import org.example.backend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +27,9 @@ public class BookServiceImpl implements BookService{
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Override
     public BookResponseDto saveBook(BookRequestDto requestDto) {
         MultipartFile image= requestDto.getImage();
@@ -37,7 +42,11 @@ public class BookServiceImpl implements BookService{
         Optional<Book>existingBook=bookRepository.findByIsbn(requestDto.getIsbn());
         if(!existingBook.isPresent()){
         Book book = bookMapper.toEntity(requestDto,imageUrl);
+        Integer categoryId=requestDto.getCategoryId();
+        Category category=categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId));
+        book.setCategory(category);
         bookRepository.save(book);
+        String categoryName=category.getCategoryName();
         return bookMapper.toDto(book);}
         else{
             throw new BookAlreadyExistsException("Book already exist");

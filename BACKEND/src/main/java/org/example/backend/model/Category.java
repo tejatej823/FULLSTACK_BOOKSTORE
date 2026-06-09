@@ -18,12 +18,12 @@ import java.util.List;
 public class Category {
 
     @Id
-    @GeneratedValue
-    private Long categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer categoryId;
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true,fetch=FetchType.LAZY)
     private List<Book>books=new ArrayList<>();
 
 }

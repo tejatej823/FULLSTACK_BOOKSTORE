@@ -25,7 +25,7 @@ public class Book {
     private LocalDate publishedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="categoryId")
+    @JoinColumn(name="categoryId",nullable = false)
     private Category category;
 
     private String imageUrl;
