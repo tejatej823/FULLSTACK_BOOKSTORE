@@ -6,6 +6,7 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class BookRequestDto {
 

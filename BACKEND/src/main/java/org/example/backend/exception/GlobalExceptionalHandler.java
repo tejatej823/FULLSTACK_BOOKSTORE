@@ -1,6 +1,10 @@
 package org.example.backend.exception;
 
 import java.util.Map;
+
+import org.example.backend.exception.BookExceptions.BookAlreadyExistsException;
+import org.example.backend.exception.BookExceptions.BookNotFoundException;
+import org.example.backend.exception.CategoryExceptions.CategoryAlreadyExistsException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,5 +33,11 @@ public class GlobalExceptionalHandler {
         String message=ex.getMessage();
         ErrorResponse<String>response=new ErrorResponse<>(404,"NOT_FOUND",message);
         return ResponseEntity.status(404).body(response);
+    }
+    @ExceptionHandler(CategoryAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse<String>>handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex){
+        String message=ex.getMessage();
+        ErrorResponse<String>response=new ErrorResponse<>(409,"CONFLICT",message);
+        return ResponseEntity.status(409).body(response);
     }
 }

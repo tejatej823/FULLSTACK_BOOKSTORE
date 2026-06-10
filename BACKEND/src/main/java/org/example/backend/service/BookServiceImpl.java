@@ -1,22 +1,20 @@
 package org.example.backend.service;
 import org.example.backend.dto.response.BookResponseDto;
-import org.example.backend.exception.BookAlreadyExistsException;
+import org.example.backend.exception.BookExceptions.BookAlreadyExistsException;
+import org.example.backend.exception.BookExceptions.BookNotFoundException;
 import org.example.backend.mapper.BookMapper;
 import org.example.backend.dto.request.BookRequestDto;
 import org.example.backend.model.Book;
-import org.example.backend.model.Category;
 import org.example.backend.repository.BookRepository;
-import org.example.backend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.*;
 import java.util.UUID;
-import org.example.backend.exception.*;
 
 @Service
-public class BookServiceImpl implements BookService{
+public class  BookServiceImpl implements BookService{
 
     @Autowired
     private BookRepository bookRepository;
@@ -26,9 +24,6 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private BookMapper bookMapper;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Override
     public BookResponseDto saveBook(BookRequestDto requestDto) {
@@ -42,11 +37,7 @@ public class BookServiceImpl implements BookService{
         Optional<Book>existingBook=bookRepository.findByIsbn(requestDto.getIsbn());
         if(!existingBook.isPresent()){
         Book book = bookMapper.toEntity(requestDto,imageUrl);
-        Integer categoryId=requestDto.getCategoryId();
-        Category category=categoryRepository.findById(categoryId).orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId));
-        book.setCategory(category);
         bookRepository.save(book);
-        String categoryName=category.getCategoryName();
         return bookMapper.toDto(book);}
         else{
             throw new BookAlreadyExistsException("Book already exist");
