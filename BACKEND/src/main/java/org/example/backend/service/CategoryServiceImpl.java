@@ -9,6 +9,7 @@ import org.example.backend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -37,4 +38,11 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category>categoryList=categoryRepository.findAll();
         return categoryMapper.toListDto(categoryList);
     }
+
+    @Override
+    public CategoryResponseDto getCategoryById(Integer id){
+        Category requestedCategory=categoryRepository.findById(id).orElseThrow(()->new CategoryAlreadyExistsException("Category not found"));
+        return categoryMapper.toDto(requestedCategory);
+    }
+
 }

@@ -33,4 +33,12 @@ public class CategoryController {
         ApiResponse<List<CategoryResponseDto>>response=new ApiResponse<>("SUCCESS","All Categories retrieved successfully",allCategories);
         return ResponseEntity.status(200).body(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CategoryResponseDto>>getCategoryById(@PathVariable Integer id){
+        CategoryResponseDto requestedCategory=categoryService.getCategoryById(id);
+        System.out.println(requestedCategory);
+        ApiResponse<CategoryResponseDto>response=new ApiResponse<>("SUCCESS","Book fetched successfully",requestedCategory);
+        return ResponseEntity.status(200).body(response);
+    }
 }
