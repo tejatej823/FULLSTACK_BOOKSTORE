@@ -26,7 +26,7 @@ public class BookController {
     public ResponseEntity<ApiResponse<BookResponseDto>> saveBook(@Valid  @ModelAttribute BookRequestDto requestDto) {
         System.out.println("Reached saveBook controller");
         BookResponseDto bookResponseDto=bookService.saveBook(requestDto);
-        ApiResponse<BookResponseDto> response=new ApiResponse<>("success","new book added successfully",bookResponseDto);
+        ApiResponse<BookResponseDto> response=new ApiResponse<>(true,"new book added successfully",bookResponseDto);
         return ResponseEntity.status(201).body(response);
     }
 
@@ -40,7 +40,7 @@ public class BookController {
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<BookResponseDto>>>getAllBooks(){
         List<BookResponseDto>books=bookService.getBooks();
-        ApiResponse<List<BookResponseDto>>response=new ApiResponse<>("success","Books retrieved from database successfully",books);
+        ApiResponse<List<BookResponseDto>>response=new ApiResponse<>(true,"Books retrieved from database successfully",books);
         return ResponseEntity.status(201).body(response);
     }
 }

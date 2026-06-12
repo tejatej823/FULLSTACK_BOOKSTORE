@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ApiResponse<T> {
-    private String status;
+    private boolean success;
     private String message;
     private T data;
 }

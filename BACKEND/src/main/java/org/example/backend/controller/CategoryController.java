@@ -23,14 +23,14 @@ public class CategoryController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<CategoryResponseDto>> addCategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto){
         CategoryResponseDto categoryResponseDto= categoryService.addCategory(categoryRequestDto);
-        ApiResponse<CategoryResponseDto>response=new ApiResponse<>("SUCCESS","Category added successfully",categoryResponseDto);
+        ApiResponse<CategoryResponseDto>response=new ApiResponse<>(true,"Category added successfully",categoryResponseDto);
         return ResponseEntity.status(201).body(response);
     }
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse<List<CategoryResponseDto>>>getAllCategories(){
         List<CategoryResponseDto>allCategories=categoryService.getAllCategories();
-        ApiResponse<List<CategoryResponseDto>>response=new ApiResponse<>("SUCCESS","All Categories retrieved successfully",allCategories);
+        ApiResponse<List<CategoryResponseDto>>response=new ApiResponse<>(true,"All Categories retrieved successfully",allCategories);
         return ResponseEntity.status(200).body(response);
     }
 
@@ -38,7 +38,13 @@ public class CategoryController {
     public ResponseEntity<ApiResponse<CategoryResponseDto>>getCategoryById(@PathVariable Integer id){
         CategoryResponseDto requestedCategory=categoryService.getCategoryById(id);
         System.out.println(requestedCategory);
-        ApiResponse<CategoryResponseDto>response=new ApiResponse<>("SUCCESS","Book fetched successfully",requestedCategory);
+        ApiResponse<CategoryResponseDto>response=new ApiResponse<>(true,"Book fetched successfully",requestedCategory);
         return ResponseEntity.status(200).body(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Integer id){
+        categoryService.deleteCategoryById(id);
+        return ResponseEntity.status(204).body("Category deleted successfully");
     }
 }

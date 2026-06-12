@@ -1,16 +1,13 @@
 package org.example.backend.service;
-
 import org.example.backend.dto.request.CategoryRequestDto;
 import org.example.backend.dto.response.CategoryResponseDto;
 import org.example.backend.exception.CategoryExceptions.CategoryAlreadyExistsException;
+import org.example.backend.exception.CategoryExceptions.CategoryNotFoundException;
 import org.example.backend.mapper.CategoryMapper;
 import org.example.backend.model.Category;
 import org.example.backend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -41,8 +38,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto getCategoryById(Integer id){
-        Category requestedCategory=categoryRepository.findById(id).orElseThrow(()->new CategoryAlreadyExistsException("Category not found"));
+        Category requestedCategory=categoryRepository.findById(id).orElseThrow(()->new CategoryNotFoundException("Category not found"));
         return categoryMapper.toDto(requestedCategory);
     }
 
+    @Override
+    public void deleteCategoryById(Integer id){
+        boolean checkAlreadyExisted=categoryRepository.existsById(id);
+        if(!checkAlreadyExisted){
+            throw new CategoryNotFoundException("Requested category did not exist");
+        }
+        categoryRepository.deleteById(id);
+    }
 }
