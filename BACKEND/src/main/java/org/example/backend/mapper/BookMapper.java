@@ -22,6 +22,7 @@ public interface BookMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "category", ignore = true)
+    @Mapping(target="imageUrl",source="imageUrl")
     Book toEntity(BookRequestDto bookRequestDto, String imageUrl);
 
 }

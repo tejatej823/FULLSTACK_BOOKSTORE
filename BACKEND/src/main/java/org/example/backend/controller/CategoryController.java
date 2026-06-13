@@ -1,6 +1,4 @@
 package org.example.backend.controller;
-
-
 import jakarta.validation.Valid;
 import org.example.backend.dto.request.CategoryRequestDto;
 import org.example.backend.dto.response.CategoryResponseDto;
@@ -8,8 +6,8 @@ import org.example.backend.service.CategoryService;
 import org.example.backend.util.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/categories")
@@ -43,8 +41,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Integer id){
+    public ResponseEntity<String> deleteCategory(@PathVariable Integer id){
         categoryService.deleteCategoryById(id);
-        return ResponseEntity.status(204).body("Category deleted successfully");
+        return ResponseEntity.status(200).body("`Category deleted successfully`");
     }
+
 }

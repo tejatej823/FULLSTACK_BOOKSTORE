@@ -36,7 +36,7 @@ public class BookRequestDto {
     @PastOrPresent(message = "Published date should be past or present")
     private LocalDate publishedDate;
 
-    @NotBlank(message = "Category id cannot be null")
+    @NotNull(message = "Category id cannot be null")
     private Integer categoryId;
 
     @NotNull(message = "Image cannot be null")

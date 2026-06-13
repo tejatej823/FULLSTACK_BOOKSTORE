@@ -7,5 +7,5 @@ import java.util.*;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book,UUID>{
-    Optional<Book>findByIsbn(String isbn);
+    boolean existsByIsbn(String isbn);
 }
