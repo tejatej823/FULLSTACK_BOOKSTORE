@@ -23,11 +23,10 @@ public class Book {
     private Integer stock;
     private String description;
     private LocalDate publishedDate;
-
+    private Integer totalSold;
+    private Double rating;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="categoryId")
     private Category category;
-
     private String imageUrl;
-
 }

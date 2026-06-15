@@ -3,7 +3,9 @@ import org.example.backend.dto.response.BookResponseDto;
 import org.example.backend.util.ApiResponse;
 import jakarta.validation.Valid;
 import org.example.backend.service.BookService;
+import org.example.backend.util.PaginationApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.example.backend.dto.request.BookRequestDto;
@@ -22,11 +24,11 @@ public class BookController {
         this.bookService=bookService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse<BookResponseDto>> saveBook(@Valid  @ModelAttribute BookRequestDto requestDto) {
-        System.out.println("Reached saveBook controller");
+        System.out.println(requestDto.getTotalSold());
         BookResponseDto bookResponseDto=bookService.saveBook(requestDto);
-
+        System.out.println(bookResponseDto.getRating());
         ApiResponse<BookResponseDto> response=new ApiResponse<>(true,"new book added successfully",bookResponseDto);
         return ResponseEntity.status(201).body(response);
     }
@@ -38,10 +40,25 @@ public class BookController {
         return ResponseEntity.status(200).body("Deleted successfully");
     }
 
-    @GetMapping("/")
-    public ResponseEntity<ApiResponse<List<BookResponseDto>>>getAllBooks(){
-        List<BookResponseDto>books=bookService.getBooks();
-        ApiResponse<List<BookResponseDto>>response=new ApiResponse<>(true,"Books retrieved from database successfully",books);
-        return ResponseEntity.status(201).body(response);
+    @GetMapping
+    public ResponseEntity<PaginationApiResponse<List<BookResponseDto>>> getAllBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size) {
+
+        Page<BookResponseDto> booksDtoPage = bookService.getBooks(page, size);
+        List<BookResponseDto> data = booksDtoPage.getContent();
+
+        PaginationApiResponse<List<BookResponseDto>> response =
+                new PaginationApiResponse<>(
+                        true,
+                        "Books retrieved successfully",
+                        data,
+                        page,
+                        size,
+                        booksDtoPage.getTotalElements(),
+                        booksDtoPage.getTotalPages()
+                );
+
+        return ResponseEntity.ok(response);
     }
 }

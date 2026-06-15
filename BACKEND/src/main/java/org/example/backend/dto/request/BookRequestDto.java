@@ -39,6 +39,15 @@ public class BookRequestDto {
     @NotNull(message = "Category id cannot be null")
     private Integer categoryId;
 
+    @NotNull(message="Total number of sold items cannot be null")
+    @Min(value=0,message="Total number of sold items must be positive or zero")
+    private Integer totalSold;
+
+    @NotNull(message="Rating should not be null")
+    @Min(value=0,message="Minimum value should be zero and maximum value should be five")
+    @Max(value=5,message="Minimum value should be zero and maximum value should be five")
+    private Double rating;
+
     @NotNull(message = "Image cannot be null")
     private MultipartFile image;
 

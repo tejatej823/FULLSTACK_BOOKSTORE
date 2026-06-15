@@ -1,5 +1,4 @@
 package org.example.backend.service;
-import org.example.backend.controller.CategoryController;
 import org.example.backend.dto.response.BookResponseDto;
 import org.example.backend.exception.BookExceptions.BookAlreadyExistsException;
 import org.example.backend.exception.BookExceptions.BookNotFoundException;
@@ -11,6 +10,9 @@ import org.example.backend.model.Category;
 import org.example.backend.repository.BookRepository;
 import org.example.backend.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -47,8 +49,10 @@ public class  BookServiceImpl implements BookService{
             throw new BookAlreadyExistsException("Book already existed");
         }
         Book book = bookMapper.toEntity(requestDto,imageUrl);
+
         Category category= categoryRepository.findById(requestDto.getCategoryId()).orElseThrow(()->new CategoryNotFoundException("Category did not exist"));
         book.setCategory(category);
+        System.out.println(book.getRating());
         bookRepository.save(book);
         return bookMapper.toDto(book);
     }
@@ -64,8 +68,9 @@ public class  BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<BookResponseDto>getBooks(){
-        List<Book>books=bookRepository.findAll();
-        return bookMapper.toDtoList(books);
+    public Page<BookResponseDto> getBooks(int page, int size){
+        Pageable pageable= PageRequest.of(page,size);
+        Page<Book>BookEntityPage=bookRepository.findAll(pageable);
+        return BookEntityPage.map(bookMapper::toDto);
     }
 }
