@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface BookService{
     BookResponseDto saveBook(BookRequestDto requestDto);
     String deleteBook(UUID id);
-    Page<BookResponseDto> getBooks(int page, int size);
+    Page<BookResponseDto> getBooks(int page, int size, String sortBy,boolean ascending);
 }

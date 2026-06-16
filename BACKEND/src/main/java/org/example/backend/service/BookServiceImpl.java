@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -68,8 +69,9 @@ public class  BookServiceImpl implements BookService{
     }
 
     @Override
-    public Page<BookResponseDto> getBooks(int page, int size){
-        Pageable pageable= PageRequest.of(page,size);
+    public Page<BookResponseDto> getBooks(int page, int size,String sortBy,boolean ascending){
+        Sort sort=ascending? Sort.by(sortBy).ascending():Sort.by(sortBy).descending();
+        Pageable pageable= PageRequest.of(page,size,sort);
         Page<Book>BookEntityPage=bookRepository.findAll(pageable);
         return BookEntityPage.map(bookMapper::toDto);
     }

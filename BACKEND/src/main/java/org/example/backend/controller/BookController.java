@@ -43,9 +43,12 @@ public class BookController {
     @GetMapping
     public ResponseEntity<PaginationApiResponse<List<BookResponseDto>>> getAllBooks(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "15") int size) {
+            @RequestParam(defaultValue = "15") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending
+    ) {
 
-        Page<BookResponseDto> booksDtoPage = bookService.getBooks(page, size);
+        Page<BookResponseDto> booksDtoPage = bookService.getBooks(page, size,sortBy,ascending);
         List<BookResponseDto> data = booksDtoPage.getContent();
 
         PaginationApiResponse<List<BookResponseDto>> response =
@@ -53,8 +56,8 @@ public class BookController {
                         true,
                         "Books retrieved successfully",
                         data,
-                        page,
-                        size,
+                        booksDtoPage.getNumber(),
+                        booksDtoPage.getSize(),
                         booksDtoPage.getTotalElements(),
                         booksDtoPage.getTotalPages()
                 );
