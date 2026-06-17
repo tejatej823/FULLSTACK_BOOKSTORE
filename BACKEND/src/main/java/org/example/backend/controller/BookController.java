@@ -61,7 +61,6 @@ public class BookController {
                         booksDtoPage.getTotalElements(),
                         booksDtoPage.getTotalPages()
                 );
-
         return ResponseEntity.ok(response);
     }
 }
