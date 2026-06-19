@@ -45,13 +45,13 @@ public class  BookServiceImpl implements BookService{
             throw new RuntimeException(e);
         }
         String isbn=requestDto.getIsbn();
-        boolean checkBookAlreadyExisted= bookRepository.existsByIsbn(isbn);
-        if(checkBookAlreadyExisted){
+        boolean isBookAlreadyExisted= bookRepository.existsByIsbn(isbn);
+        if(isBookAlreadyExisted){
             throw new BookAlreadyExistsException("Book already existed");
         }
         Book book = bookMapper.toEntity(requestDto,imageUrl);
-
         Category category= categoryRepository.findById(requestDto.getCategoryId()).orElseThrow(()->new CategoryNotFoundException("Category did not exist"));
+
         book.setCategory(category);
         System.out.println(book.getRating());
         bookRepository.save(book);
@@ -75,4 +75,4 @@ public class  BookServiceImpl implements BookService{
         Page<Book>BookEntityPage=bookRepository.findAll(pageable);
         return BookEntityPage.map(bookMapper::toDto);
     }
-} 
+}

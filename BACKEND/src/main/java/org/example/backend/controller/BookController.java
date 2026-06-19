@@ -26,7 +26,6 @@ public class BookController {
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<BookResponseDto>> saveBook(@Valid  @ModelAttribute BookRequestDto requestDto) {
-        System.out.println(requestDto.getTotalSold());
         BookResponseDto bookResponseDto=bookService.saveBook(requestDto);
         System.out.println(bookResponseDto.getRating());
         ApiResponse<BookResponseDto> response=new ApiResponse<>(true,"new book added successfully",bookResponseDto);
