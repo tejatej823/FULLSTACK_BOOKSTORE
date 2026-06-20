@@ -22,8 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponseDto addCategory(CategoryRequestDto categoryRequestDto) {
         Category newCategory=categoryMapper.toEntity(categoryRequestDto);
-        boolean checkAlreadyExisted= categoryRepository.existsBycategoryName(categoryRequestDto.getCategoryName());
-        if(checkAlreadyExisted){
+        boolean isCategoryAlreadyExisted= categoryRepository.existsBycategoryName(categoryRequestDto.getCategoryName());
+        if(isCategoryAlreadyExisted){
             throw new CategoryAlreadyExistsException("Category already exists!!");
         }
         categoryRepository.save(newCategory);

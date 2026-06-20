@@ -1,8 +1,8 @@
 package org.example.backend.exception;
-
 import java.util.Map;
 import org.example.backend.exception.BookExceptions.BookAlreadyExistsException;
 import org.example.backend.exception.BookExceptions.BookNotFoundException;
+import org.example.backend.exception.BookExceptions.TitleAlreadyExistsException;
 import org.example.backend.exception.CategoryExceptions.CategoryAlreadyExistsException;
 import org.example.backend.exception.CategoryExceptions.CategoryNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +45,11 @@ public class GlobalExceptionalHandler {
         String message=ex.getMessage();
         ErrorResponse<String>response=new ErrorResponse<>(404,"NOT_FOUND",message);
         return ResponseEntity.status(404).body(response);
+    }
+    @ExceptionHandler(TitleAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse<String>>handleTitleAlreadyExistsException(TitleAlreadyExistsException ex){
+        String message=ex.getMessage();
+        ErrorResponse<String>response=new ErrorResponse<>(409,"CONFLICT",message);
+        return ResponseEntity.status(409).body(response);
     }
 }

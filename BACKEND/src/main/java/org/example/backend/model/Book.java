@@ -16,9 +16,14 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(unique = true)
     private String title;
+
     private String author;
+
+    @Column(unique = true)
     private String isbn;
+
     private Double price;
     private Integer stock;
     private String description;

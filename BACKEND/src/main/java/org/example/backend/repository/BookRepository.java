@@ -8,4 +8,5 @@ import java.util.*;
 @Repository
 public interface BookRepository extends JpaRepository<Book,UUID>{
     boolean existsByIsbn(String isbn);
+    boolean existsByTitle(String title);
 }

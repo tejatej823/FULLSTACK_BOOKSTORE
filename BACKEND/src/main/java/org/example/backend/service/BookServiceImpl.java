@@ -2,6 +2,7 @@ package org.example.backend.service;
 import org.example.backend.dto.response.BookResponseDto;
 import org.example.backend.exception.BookExceptions.BookAlreadyExistsException;
 import org.example.backend.exception.BookExceptions.BookNotFoundException;
+import org.example.backend.exception.BookExceptions.TitleAlreadyExistsException;
 import org.example.backend.exception.CategoryExceptions.CategoryNotFoundException;
 import org.example.backend.mapper.BookMapper;
 import org.example.backend.dto.request.BookRequestDto;
@@ -45,15 +46,18 @@ public class  BookServiceImpl implements BookService{
             throw new RuntimeException(e);
         }
         String isbn=requestDto.getIsbn();
+        String title=requestDto.getTitle();
         boolean isBookAlreadyExisted= bookRepository.existsByIsbn(isbn);
         if(isBookAlreadyExisted){
             throw new BookAlreadyExistsException("Book already existed");
         }
+        boolean isTitleAlreadyExisted=bookRepository.existsByTitle(title);
+        if(isTitleAlreadyExisted){
+            throw new TitleAlreadyExistsException("Title name already existed");
+        }
         Book book = bookMapper.toEntity(requestDto,imageUrl);
         Category category= categoryRepository.findById(requestDto.getCategoryId()).orElseThrow(()->new CategoryNotFoundException("Category did not exist"));
-
         book.setCategory(category);
-        System.out.println(book.getRating());
         bookRepository.save(book);
         return bookMapper.toDto(book);
     }
