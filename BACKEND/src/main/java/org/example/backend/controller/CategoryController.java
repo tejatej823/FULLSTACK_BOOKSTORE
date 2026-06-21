@@ -25,7 +25,7 @@ public class CategoryController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<CategoryResponseDto>>>getAllCategories(){
         List<CategoryResponseDto>allCategories=categoryService.getAllCategories();
         ApiResponse<List<CategoryResponseDto>>response=new ApiResponse<>(true,"All Categories retrieved successfully",allCategories);

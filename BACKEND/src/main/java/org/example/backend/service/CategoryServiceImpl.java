@@ -33,6 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryResponseDto> getAllCategories(){
         List<Category>categoryList=categoryRepository.findAll();
+        categoryList.forEach(category -> {
+            System.out.println(category+"has "+category.getBooks().size()+"books");
+        });
         return categoryMapper.toListDto(categoryList);
     }
 
@@ -50,4 +53,5 @@ public class CategoryServiceImpl implements CategoryService {
         }
         categoryRepository.deleteById(id);
     }
+
 }
