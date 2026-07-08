@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryResponseDto> getAllCategories(){
         List<Category>categoryList=categoryRepository.findAll();
         categoryList.forEach(category -> {
-            System.out.println(category+"has "+category.getBooks().size()+"books");
+            System.out.println(category.getCategoryName() +" has "+category.getBooks().size()+"books");
         });
         return categoryMapper.toListDto(categoryList);
     }
