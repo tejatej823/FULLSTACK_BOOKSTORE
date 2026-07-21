@@ -1,6 +1,4 @@
 package org.example.backend.dto.request;
-
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -8,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
+
+
 
 @Getter
 @Setter
@@ -25,5 +26,7 @@ public class UserRequestDto {
 
     @NotBlank(message="password is required")
     private String password;
+
+    private Set<String>roles;
 
 }

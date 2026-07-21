@@ -5,6 +5,7 @@ import org.example.backend.dto.request.UserRequestDto;
 import org.example.backend.dto.response.UserResponseDto;
 import org.example.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import java.util.Set;
 
 
 @Service
@@ -19,6 +20,15 @@ public class UserServiceImpl implements UserService
 
     @Override
     public UserResponseDto saveUser(UserRequestDto userRequestDto) {
+
+        if(userRepository.existsByEmail(userRequestDto.getEmail())){
+            throw new IllegalArgumentException("Email is already registered!");
+        }
+
+        if(userRepository.existsByUsername(userRequestDto.getUsername())){
+            throw new IllegalArgumentException("Username already registered!");
+        }
+
 
         return null;
     }
