@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Set;
 
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,7 +24,5 @@ public class UserRequestDto {
 
     @NotBlank(message="password is required")
     private String password;
-
-    private Set<String>roles;
 
 }

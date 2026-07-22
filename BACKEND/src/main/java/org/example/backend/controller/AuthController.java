@@ -1,12 +1,11 @@
 package org.example.backend.controller;
-
-
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.example.backend.dto.request.UserRequestDto;
 import org.example.backend.dto.response.UserResponseDto;
 import org.example.backend.model.User;
 import org.example.backend.service.UserService;
+import org.example.backend.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +29,8 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody @Valid UserRequestDto userRequestDto){
 
         UserResponseDto userResponseDto=userService.saveUser(userRequestDto);
-
-        return null;
+        System.out.println(userResponseDto.getUsername());
+        ApiResponse<UserResponseDto> response=new ApiResponse<>(true,"User registered successfully",userResponseDto);
+        return ResponseEntity.status(200).body(response);
     }
 }
