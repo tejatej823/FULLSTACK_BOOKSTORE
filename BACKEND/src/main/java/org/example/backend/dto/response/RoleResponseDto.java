@@ -11,6 +11,4 @@ public class RoleResponseDto {
     private Long id;
     private ERole role;
 
-    public void set() {
-    }
 }
