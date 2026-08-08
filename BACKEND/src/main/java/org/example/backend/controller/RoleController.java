@@ -34,7 +34,7 @@ public class RoleController {
         RoleResponseDto roleResponseDto=roleService.saveRole(roleRequestDto);
         ApiResponse<RoleResponseDto>response=new ApiResponse<>(true,"Role added successfully",roleResponseDto);
         return ResponseEntity.status(200).body(response);
-    }
+    } 
 
     @GetMapping("/")
     ResponseEntity<?>getRoles(){
