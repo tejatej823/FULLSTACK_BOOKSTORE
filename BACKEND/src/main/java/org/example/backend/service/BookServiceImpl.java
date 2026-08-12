@@ -68,6 +68,7 @@ public class  BookServiceImpl implements BookService{
         if(!checkBookAlreadyExisted){
             throw new BookNotFoundException("Book does not exists.");
         }
+        //added
         bookRepository.deleteById(id);
         return "Book  deleted successfully";
     }
