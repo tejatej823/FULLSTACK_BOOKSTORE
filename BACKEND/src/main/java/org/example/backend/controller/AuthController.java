@@ -33,4 +33,11 @@ public class AuthController {
         ApiResponse<UserResponseDto> response=new ApiResponse<>(true,"User registered successfully",userResponseDto);
         return ResponseEntity.status(200).body(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(){
+
+        return null;
+    }
+
 }
