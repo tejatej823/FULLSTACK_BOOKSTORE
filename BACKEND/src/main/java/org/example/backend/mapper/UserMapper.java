@@ -1,7 +1,7 @@
 package org.example.backend.mapper;
 import org.example.backend.dto.request.UserRequestDto;
 import org.example.backend.dto.response.UserResponseDto;
-import org.example.backend.model.User;
+import org.example.backend.model.Users;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -10,8 +10,8 @@ public interface UserMapper {
 
     @Mapping(target="id",ignore = true)
     @Mapping(target="roles",ignore = true)
-    User toEntity(UserRequestDto userRequestDto);
+    Users toEntity(UserRequestDto userRequestDto);
 
-    UserResponseDto toDto(User user);
+    UserResponseDto toDto(Users user);
 
 }

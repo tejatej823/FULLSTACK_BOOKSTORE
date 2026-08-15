@@ -5,7 +5,7 @@ import org.example.backend.dto.response.UserResponseDto;
 import org.example.backend.mapper.UserMapper;
 import org.example.backend.model.ERole;
 import org.example.backend.model.Role;
-import org.example.backend.model.User;
+import org.example.backend.model.Users;
 import org.example.backend.repository.RoleRepository;
 import org.example.backend.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService
             throw new IllegalArgumentException("Username already registered!");
         }
 
-        User user=userMapper.toEntity(userRequestDto);
+        Users user=userMapper.toEntity(userRequestDto);
         Role role=roleRepository.findByRole(ERole.ROLE_USER);
         Set<Role>roles=new HashSet<>();
         roles.add(role);

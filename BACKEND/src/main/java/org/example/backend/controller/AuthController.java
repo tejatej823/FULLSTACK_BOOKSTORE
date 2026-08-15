@@ -1,13 +1,16 @@
 package org.example.backend.controller;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.example.backend.dto.request.UserRequestDto;
 import org.example.backend.dto.response.UserResponseDto;
-import org.example.backend.model.User;
 import org.example.backend.service.UserService;
 import org.example.backend.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
 
+    private final AuthenticationManager authenticationManager;
+
     private final UserService userService;
 
+
     @Autowired
-    AuthController(UserService userService){
+    AuthController(AuthenticationManager authenticationManager, UserService userService){
+        this.authenticationManager = authenticationManager;
         this.userService=userService;
     }
 
@@ -35,9 +42,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(){
+    public String loginUser(@RequestBody UserRequestDto request){
+        UsernamePasswordAuthenticationToken token=new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
+        Authentication authentication=authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return null;
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return "user success"+userDetails.getUsername();
     }
 
 }
