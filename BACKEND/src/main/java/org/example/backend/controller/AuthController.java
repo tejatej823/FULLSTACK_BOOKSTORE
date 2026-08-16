@@ -2,6 +2,7 @@ package org.example.backend.controller;
 import jakarta.validation.Valid;
 import org.example.backend.dto.request.UserRequestDto;
 import org.example.backend.dto.response.UserResponseDto;
+import org.example.backend.security.dto.LoginRequestDto;
 import org.example.backend.service.UserService;
 import org.example.backend.util.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +41,18 @@ public class AuthController {
         ApiResponse<UserResponseDto> response=new ApiResponse<>(true,"User registered successfully",userResponseDto);
         return ResponseEntity.status(200).body(response);
     }
-
     @PostMapping("/login")
-    public String loginUser(@RequestBody UserRequestDto request){
-        UsernamePasswordAuthenticationToken token=new UsernamePasswordAuthenticationToken(request.getUsername(),request.getPassword());
-        Authentication authentication=authenticationManager.authenticate(token);
+    public String loginUser(@RequestBody LoginRequestDto request) {
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
+
+        Authentication authentication = authenticationManager.authenticate(token);
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        return "user success"+userDetails.getUsername();
+        return "user success" + userDetails.getUsername();
     }
 
 }
